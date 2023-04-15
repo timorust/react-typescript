@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FilterValueTypes } from "../App";
 
 export type TasksType = {
@@ -12,20 +12,40 @@ type PropsType = {
   tasks: Array<TasksType>;
   removeTask: (id: string) => void;
   changeFilter: (value: FilterValueTypes) => void;
+  addTask: (inputTaskTitleFromTodoList: string) => void;
 };
 
 export function TodoList(props: PropsType) {
+  const [inputTaskTitleFromTodoList, setInputTaskTitleFromTodoList] =
+    useState("");
+
   return (
     <div>
       <h1>{props.title}</h1>
       <div>
-        <input type="text" />
-        <button>+</button>
+        <input
+          value={inputTaskTitleFromTodoList}
+          onChange={(e) => setInputTaskTitleFromTodoList(e.currentTarget.value)}
+          onKeyPress={(e) => {
+            if (e.charCode === 13) {
+              props.addTask(inputTaskTitleFromTodoList);
+              setInputTaskTitleFromTodoList("");
+            }
+          }}
+        />
+        <button
+          onClick={() => {
+            props.addTask(inputTaskTitleFromTodoList);
+            setInputTaskTitleFromTodoList("");
+          }}
+        >
+          Add Task
+        </button>
       </div>
 
       <ul>
         {props.tasks.map((t) => (
-          <li>
+          <li key={t.id}>
             <input type="checkbox" checked={t.isDone} />
             <span>{t.title}</span>
             <button
