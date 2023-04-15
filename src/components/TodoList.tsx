@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, KeyboardEvent, useState } from "react";
 import { FilterValueTypes } from "../App";
 
 export type TasksType = {
@@ -23,6 +23,13 @@ export function TodoList(props: PropsType) {
     setInputTaskTitleFromTodoList(e.currentTarget.value);
   };
 
+  const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.charCode === 13) {
+      props.addTask(inputTaskTitleFromTodoList);
+      setInputTaskTitleFromTodoList("");
+    }
+  };
+
   return (
     <div>
       <h1>{props.title}</h1>
@@ -30,12 +37,7 @@ export function TodoList(props: PropsType) {
         <input
           value={inputTaskTitleFromTodoList}
           onChange={onChangeHandler}
-          onKeyPress={(e) => {
-            if (e.charCode === 13) {
-              props.addTask(inputTaskTitleFromTodoList);
-              setInputTaskTitleFromTodoList("");
-            }
-          }}
+          onKeyPress={onKeyPressHandler}
         />
         <button
           onClick={() => {
