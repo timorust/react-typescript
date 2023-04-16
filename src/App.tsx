@@ -12,20 +12,15 @@ function App() {
     { id: v1(), title: "TCP UDP", isDone: true },
   ]);
 
-  console.log(tasks);
-
   let [filter, setFilter] = useState<FilterValueTypes>("all");
 
-  function changeFilter(value: FilterValueTypes) {
-    setFilter(value);
-  }
+  function changeStatus(taskId: string, isDone: boolean) {
+    let task = tasks.find((t) => t.id === taskId);
+    if (task) {
+      task.isDone = isDone;
+    }
 
-  let tasksToFilter = tasks;
-  if (filter === "active") {
-    tasksToFilter = tasks.filter((t) => t.isDone === false);
-  }
-  if (filter === "completed") {
-    tasksToFilter = tasks.filter((t) => t.isDone === true);
+    setTasks([...tasks]);
   }
 
   function addTask(inputTaskTitleFromTodoList: string) {
@@ -43,6 +38,18 @@ function App() {
     setTasks(filterTasks);
   }
 
+  function changeFilter(value: FilterValueTypes) {
+    setFilter(value);
+  }
+
+  let tasksToFilter = tasks;
+  if (filter === "active") {
+    tasksToFilter = tasks.filter((t) => t.isDone === false);
+  }
+  if (filter === "completed") {
+    tasksToFilter = tasks.filter((t) => t.isDone === true);
+  }
+
   return (
     <div className="App">
       <TodoList
@@ -51,6 +58,7 @@ function App() {
         removeTask={removeTask}
         changeFilter={changeFilter}
         addTask={addTask}
+        changeTaskStatus={changeStatus}
       />
     </div>
   );
