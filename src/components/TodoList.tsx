@@ -30,6 +30,11 @@ export function TodoList(props: PropsType) {
     }
   };
 
+  const addTask = () => {
+    props.addTask(inputTaskTitleFromTodoList);
+    setInputTaskTitleFromTodoList("");
+  };
+
   return (
     <div>
       <h1>{props.title}</h1>
@@ -39,14 +44,7 @@ export function TodoList(props: PropsType) {
           onChange={onChangeHandler}
           onKeyPress={onKeyPressHandler}
         />
-        <button
-          onClick={() => {
-            props.addTask(inputTaskTitleFromTodoList);
-            setInputTaskTitleFromTodoList("");
-          }}
-        >
-          Add Task
-        </button>
+        <button onClick={addTask}>Add Task</button>
       </div>
 
       <ul>
